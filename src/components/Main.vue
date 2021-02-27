@@ -1,5 +1,5 @@
 <template>
-  <div class="container main-buttons">
+  <div class="container main-buttons text-center">
 
     <b-button>
       <router-link to="/create">Create Survey</router-link>
