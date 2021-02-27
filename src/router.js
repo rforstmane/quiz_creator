@@ -1,29 +1,30 @@
 import VueRouter from 'vue-router'
 
-import CreateSurvey from "./components/CreateSurvey";
+import CreateSurvey from "@/components/CreateSurvey";
+import CreatedSurveys from "@/components/CreatedSurveys";
+import Results from "@/components/Results";
 
 const routes = [
     {
-        path: '/create-quiz',
-        name: 'create-quiz',
-        component: CreateSurvey,
-        meta: {
-            showNavigation: false,
-            auth: false
-        }
+        path: "/",
+        name: "Main"
     },
+    {
+        path: "/create",
+        name: "Create",
+        component: CreateSurvey
+    },
+    {
+        path: "/created",
+        name: "Created",
+        component: CreatedSurveys
+    },
+    {
+        path: "/results",
+        name: "Results",
+        component: Results
+    }
 ]
-const router = new VueRouter({
 
-    base: process.env.VUE_APP_ROUTER_BASE_URL,
-    routes
-
-})
-
-
-
-router.beforeEach((to, from, next) => {
-    //console.log(from, to)
-
-    next()
-})
+const router = new VueRouter({routes})
+export default router

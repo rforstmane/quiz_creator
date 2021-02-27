@@ -1,5 +1,5 @@
 <template>
-  <div>visas izveidotās
+  <div>Aizpildītas
   </div>
 
 </template>
@@ -7,7 +7,6 @@
 <script>
 
 export default {
-  name: 'Created',
-
+  name: 'Results'
 }
 </script>

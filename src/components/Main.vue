@@ -1,52 +1,44 @@
 <template>
-  <div>
+  <div class="container main-buttons">
+
     <b-button>
-<!--      <router-link to="/create-quiz">-->
-
-        <!--          @click="visible = !visible" >-->
-        Create Survey
-
-<!--      </router-link>-->
+      <router-link to="/create">Create Survey</router-link>
     </b-button>
 
-
-    <b-button
-        @click="visible = !visible">
-      Created Survey
+    <b-button>
+      <router-link to="/created">Created Survey</router-link>
     </b-button>
 
-    <b-button
-        @click="visible2 = !visible2">
-      Completed Survey
+    <b-button>
+      <router-link to="/results">See Results</router-link>
     </b-button>
-<!--    <CreateSurvey/>-->
-    <CreatedSurveys v-if="!visible"/>
-    <CompletedSurveys v-if="!visible2"/>
+
+    <router-view></router-view>
+
   </div>
 </template>
 <script>
 
-
-import CreatedSurveys from "@/components/CreatedSurveys";
-import CompletedSurveys from "@/components/CompletedSurveys";
-
-
-
 export default {
   name: 'Main',
-  components: {
-    CompletedSurveys,
-    CreatedSurveys,
-    // CreateSurvey,
-  },
+
   data() {
-    return {
-
-      visible: true,
-      visible2: false,
-
-    }
-
+    return {}
   },
 }
 </script>
+
+<style lang="css">
+.main-buttons button {
+  margin: 0 8px;
+}
+
+.main-buttons a {
+  color: #fff;
+}
+
+.main-buttons a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+</style>

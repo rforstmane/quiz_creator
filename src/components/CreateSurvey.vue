@@ -23,6 +23,13 @@
 
 </template>
 
+<script>
+
+export default {
+  name: 'Create'
+}
+</script>
+
 <style>
 .button-block .btn {
   width: 200px;
