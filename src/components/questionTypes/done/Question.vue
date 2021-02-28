@@ -1,70 +1,97 @@
 <template>
   <div class='ui centered card'>
     <div class="content" v-show="!isEditing">
-      <span>{{ itemId + 1 }}</span>
       <div class='header'>
-        {{ question.questionText + '?' }}
+        {{ itemId + 1 + '.' + question.questionText + '?' }}
         <div v-if="question.type === 'simpleQuestion' ">
           <input
               type='text'
               disabled
               placeholder="Atbildes lauks"
               v-model="question.questionAnswer">
-
-
         </div>
         <div v-if="question.type === 'radioQuestion' ">
 
           <div
               v-for="(option, index) in question.optionsText"
-                :key="index"
-          >
-          <input
-              :id="index"
-              type='radio'
-              disabled
-              v-model="option.value">
+              :key="index">
+            <input
+                :id="index"
+                type='radio'
+                disabled
+                v-model="option.value">
             <label :for="index">{{ option.optionsText }}</label>
 
           </div>
         </div>
+
+        <div v-if="question.type === 'selectQuestion' ">
+          <select>
+            <option>default</option>
+            <option
+                disabled
+                v-for="(select, index) in question.selectText"
+                :key="index"
+                :id="index">
+              {{ select.selectText }}
+            </option>
+          </select>
+        </div>
       </div>
+
       <div class='extra content'>
-          <span class='right floated edit icon' v-on:click="showForm">
-          <i class='edit icon'>edit</i>
-        </span>
-        <p></p>
-        <span class='right floated trash icon' v-on:click="deleteQuestion(question)">
-          <i class='trash icon'>delet</i>
-        </span>
+        <b-button v-on:click="showForm" variant="warning">Edit</b-button>
+        <b-button v-on:click="deleteQuestion(question)" variant="danger">Delete</b-button>
+
       </div>
     </div>
     <div class="content" v-show="isEditing">
       <div class='ui form'>
-        <div class='field' v-if="question.type === 'simpleQuestion' ">
+
+        <div
+            v-if="question.type === 'simpleQuestion' "
+            class='field'>
           <label>Question</label>
           <input type='text' v-model="question.questionText">
         </div>
-        <div class='field' v-if="question.type === 'radioQuestion' ">
+        <div
+            v-if="question.type === 'radioQuestion'"
+            class='field'>
           <label>Question</label>
           <input type='text' v-model="question.questionText">
           <div
               v-for="(option, index) in question.optionsText"
-              :key="index"
-          >
+              :key="index">
             <input
                 disabled
                 :id="index"
                 type='radio'
                 v-model="option.value">
             <input v-model="option.optionsText "/>
+          </div>
+        </div>
+
+        <div
+            v-if="question.type === 'selectQuestion'"
+             class='field'>
+          <label>Question</label>
+          <input type='text' v-model="question.questionText">
+          <div
+              v-for="(select, index) in question.selectText"
+              :key="index">
+            <input
+                disabled
+                :id="index"
+                type='radio'
+                v-model="select.value">
+            <input v-model="select.selectText "/>
 
           </div>
         </div>
         <div class='ui two button attached buttons'>
-          <button class='ui basic blue button' v-on:click="hideForm">
-            Close X
-          </button>
+          <b-button variant="success" class='ui basic blue button' v-on:click="hideForm">
+            Save
+          </b-button>
         </div>
       </div>
     </div>

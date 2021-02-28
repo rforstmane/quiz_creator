@@ -3,24 +3,12 @@
 
     <div class="button-block col-4">
       <b-form-select
+          @change="addQuestion"
           v-model="selected"
           :options="options">
       </b-form-select>
       <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-      <b-button
-          v-on:click="addTextComponent"
-          variant="outline-primary">
-        text
-      </b-button>
-      <b-button
-          v-on:click="addRadioComponent"
-          variant="outline-primary">
-        radio
-      </b-button>
-      <b-button
-          variant="outline-primary">
-        selects
-      </b-button>
+
     </div>
 
     <div class="col-8">
@@ -35,6 +23,9 @@
         <TypeRadio v-if="isVisibleRadioForm"
                    v-on:hide-form="addRadioComponent1"
                    v-on:create-radio="createRadio"/>
+        <TypeSelect v-if="isVisibleSelectForm"
+                   v-on:hide-form="addSelectComponent1"
+                   v-on:create-select="createSelect"/>
       </div>
     </div>
   </div>
@@ -45,10 +36,12 @@
 import TypeText from "@/components/questionTypes/TypeText";
 import QuestionList from "@/components/questionTypes/done/QuestionList";
 import TypeRadio from "@/components/questionTypes/TypeRadio";
+import TypeSelect from "@/components/questionTypes/TypeSelect";
 
 export default {
   name: 'Create',
   components: {
+    TypeSelect,
     TypeRadio,
     QuestionList,
     TypeText
@@ -56,37 +49,64 @@ export default {
   data() {
     return {
       selected: null,
+      text: 'text',
+      radio: 'radio',
+      select: 'select',
+
       options: [
         { value: null, text: 'Please select an option' },
-        { value: 'a', text: 'Teksta jautājums' },
-        { value: 'b', text: 'Radio type jautajums' },
-        { value: 'c', text: 'Checkobos type' },
+        { value: 'text', text: 'Teksta jautājums' },
+        { value: 'radio', text: 'Radio type jautajums' },
+        { value: 'select', text: 'Select type' },
       ],
 
       isVisibleTextForm: false,
       isVisibleRadioForm: false,
+      isVisibleSelectForm: false,
       questions: [],
     }
   },
   methods: {
+    addQuestion(event) {
+      console.log(event)
+      if (event === this.text) {
+        this.isVisibleTextForm = true
+        this.isVisibleRadioForm = false
+        this.isVisibleSelectForm = false
+      } else if (event === this.radio) {
+        this.isVisibleRadioForm = true
+        this.isVisibleTextForm = false
+        this.isVisibleSelectForm = false
+      } else if (event === this.select) {
+        this.isVisibleSelectForm = true
+        this.isVisibleRadioForm = false
+        this.isVisibleTextForm = false
+      }
+    },
+
     createQuestion(newQuestion) {
       this.questions.push(newQuestion);
     },
     createRadio(newRadio) {
       this.questions.push(newRadio);
     },
-    addTextComponent() {
-      this.isVisibleTextForm = true
-      this.isVisibleRadioForm = false
+    createSelect(newSelect) {
+      this.questions.push(newSelect);
     },
+
     addTextComponent1() {
+      this.isVisibleSelectForm = false
+      this.isVisibleRadioForm = false
       this.isVisibleTextForm = false
     },
-    addRadioComponent() {
-      this.isVisibleRadioForm = true
-      this.isVisibleTextForm = false
-    },
+
     addRadioComponent1() {
+      this.isVisibleSelectForm = false
+      this.isVisibleRadioForm = false
+      this.isVisibleTextForm = false
+    },
+    addSelectComponent1() {
+      this.isVisibleSelectForm = false
       this.isVisibleRadioForm = false
       this.isVisibleTextForm = false
     }

@@ -1,32 +1,33 @@
 <template>
   <div class='ui basic content center aligned segment'>
     <div class='ui centered card'>
-      <div class='content'>
-        <div class='ui form'>
-          <div class='field'>
-            <input v-model="questionText"
-                   placeholder="Ievadi savu jautājumu"
-                   type='text'>
-          </div>
+      <div>
+        <div class='content'>
+
+          <input v-model="questionText"
+                 placeholder="Ievadi savu jautājumu"
+                 type='text'>
+
 
           <div class="field"
-               v-for="(option, index) in options"
+               v-for="(option, index) in selects"
                :key="index">
+
             <div>
               <input disabled type="radio" :id="index" v-model="option.value">
-              <input  v-model="option.optionsText" :placeholder=placeholder>
-              <span @click="removeRadioOption(index)">remove</span>
+              <input v-model="option.selectText" :placeholder=placeholder>
+              <span @click="removeSelectOption(index)">remove</span>
             </div>
           </div>
-
-          <p @click="addRadioOption()">addd</p>
-            <b-button variant="success" v-on:click="sendForm()">
-              Create
-            </b-button>
-            <b-button variant="danger" v-on:click="closeForm">
-              Cancel
-            </b-button>
         </div>
+        <p @click="addSelectOption()">addd</p>
+
+        <b-button variant="success" v-on:click="sendForm()">
+          Create
+        </b-button>
+        <b-button variant="danger" v-on:click="closeForm">
+          Cancel
+        </b-button>
       </div>
     </div>
   </div>
@@ -40,29 +41,28 @@ export default {
   ],
   data() {
     return {
-      type: 'radioQuestion',
+      type: 'selectQuestion',
       placeholder: 'Raksti savu opciju',
-      optionsText: '',
+      selectText: '',
       questionText: '',
 
-      picked: '',
-      options: [
+      selects: [
         {
           id: '',
-          optionsText: '',
+          selectText: '',
           value: ''
         }
       ]
     };
   },
   methods: {
-    removeRadioOption(index) {
-      this.options.splice(index, 1)
+    removeSelectOption(index) {
+      this.selects.splice(index, 1)
     },
-    addRadioOption() {
-      this.options.push({
+    addSelectOption() {
+      this.selects.push({
         id: '',
-        optionsText: ''
+        selectText: ''
       })
     },
     closeForm() {
@@ -75,11 +75,11 @@ export default {
     sendForm() {
 
       let hasBlank = false
-      if(this.questionText === '') {
+      if (this.questionText === '') {
         hasBlank = true
       }
-      for (let i = 0; i < this.options.length; i++) {
-        let isOptionText = this.options[i].optionsText
+      for (let i = 0; i < this.selects.length; i++) {
+        let isOptionText = this.selects[i].selectText
 
         if (isOptionText === '') {
           hasBlank = true
@@ -88,17 +88,17 @@ export default {
 
       if (!hasBlank) {
         const questionText = this.questionText;
-        const optionsText = this.options;
+        const selectText = this.selects;
         const type = this.type
-        this.$emit('create-radio', {
-          optionsText,
+        this.$emit('create-select', {
+          selectText,
           questionText,
           type
         });
         this.questionText = '';
-        this.options = [{
+        this.selects = [{
           id: '',
-          optionsText: '',
+          selectText: '',
           value: ''
         }];
         this.isVisibleRadioForm = false;
