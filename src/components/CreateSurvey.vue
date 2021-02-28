@@ -32,9 +32,9 @@
         <TypeText v-if="isVisibleTextForm"
                    v-on:hide-form="addTextComponent1"
                    v-on:create-question="createQuestion"/>
-<!--        <type-radio v-if="isVisibleTextForm"-->
-<!--                   v-on:hide-form="addTextComponent1"-->
-<!--                   v-on:create-todo="createTodo"/>-->
+        <TypeRadio v-if="isVisibleRadioForm"
+                   v-on:hide-form="addRadioComponent1"
+                   v-on:create-radio="createRadio"/>
       </div>
     </div>
   </div>
@@ -44,11 +44,12 @@
 
 import TypeText from "@/components/questionTypes/TypeText";
 import QuestionList from "@/components/questionTypes/done/QuestionList";
-// import TypeRadio from "@/components/questionTypes/TypeRadio";
+import TypeRadio from "@/components/questionTypes/TypeRadio";
 
 export default {
   name: 'Create',
   components: {
+    TypeRadio,
     QuestionList,
     TypeText
   },
@@ -69,17 +70,25 @@ export default {
   },
   methods: {
     createQuestion(newQuestion) {
-      console.log(this.questions)
       this.questions.push(newQuestion);
+    },
+    createRadio(newRadio) {
+      this.questions.push(newRadio);
     },
     addTextComponent() {
       this.isVisibleTextForm = true
+      this.isVisibleRadioForm = false
     },
     addTextComponent1() {
       this.isVisibleTextForm = false
     },
     addRadioComponent() {
+      this.isVisibleRadioForm = true
+      this.isVisibleTextForm = false
+    },
+    addRadioComponent1() {
       this.isVisibleRadioForm = false
+      this.isVisibleTextForm = false
     }
   }
 }

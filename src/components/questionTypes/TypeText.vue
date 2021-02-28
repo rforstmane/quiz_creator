@@ -28,13 +28,13 @@ export default {
   data() {
     return {
       questionText: '',
+      type: 'simpleQuestion',
     };
   },
   methods: {
     closeForm() {
       this.isVisibleTextForm = false;
       const isVisibleTextForm = this.isVisibleTextForm
-      console.log(this.isVisibleTextForm)
       this.$emit('hide-form', {
         isVisibleTextForm
       })
@@ -42,9 +42,11 @@ export default {
     sendForm() {
       if (this.questionText.length > 0) {
         const questionText = this.questionText;
+        const type = this.type
 
         this.$emit('create-question', {
           questionText,
+          type
         });
         this.questionText = '';
         this.isVisibleTextForm = false;
