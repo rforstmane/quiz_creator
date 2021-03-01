@@ -10,6 +10,8 @@
         :itemId="index"
         :question.sync="question">
     </Question>
+
+    <b-button @click="addSurvey">Pievienot aptauju</b-button>
   </div>
 
 </template>
@@ -29,8 +31,10 @@ export default {
     Question,
   },
   methods: {
+    addSurvey() {
+
+    },
     deleteQuestion(question) {
-      console.log(question)
       const questionIndex = this.questions.indexOf(question);
       this.questions.splice(questionIndex, 1);
     },

@@ -1,6 +1,5 @@
 <template>
   <div class="row d-flex mt-5">
-
     <div class="button-block col-4">
       <b-form-select
           @change="addQuestion"
@@ -8,24 +7,21 @@
           :options="options">
       </b-form-select>
       <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-
     </div>
 
     <div class="col-8">
-
       <div>
         <QuestionList
-            v-bind:questions="questions"
-            />
-        <TypeText v-if="isVisibleTextForm"
-                   v-on:hide-form="addTextComponent1"
-                   v-on:create-question="createQuestion"/>
-        <TypeRadio v-if="isVisibleRadioForm"
-                   v-on:hide-form="addRadioComponent1"
-                   v-on:create-radio="createRadio"/>
-        <TypeSelect v-if="isVisibleSelectForm"
-                   v-on:hide-form="addSelectComponent1"
-                   v-on:create-select="createSelect"/>
+            v-bind:questions="questions"/>
+        <TypeText
+            v-if="isVisibleTextForm"
+            v-on:create-question="createQuestion"/>
+        <TypeRadio
+            v-if="isVisibleRadioForm"
+            v-on:create-radio="createQuestion"/>
+        <TypeSelect
+            v-if="isVisibleSelectForm"
+            v-on:create-select="createQuestion"/>
       </div>
     </div>
   </div>
@@ -54,10 +50,10 @@ export default {
       select: 'select',
 
       options: [
-        { value: null, text: 'Please select an option' },
-        { value: 'text', text: 'Teksta jautājums' },
-        { value: 'radio', text: 'Radio type jautajums' },
-        { value: 'select', text: 'Select type' },
+        {value: null, text: 'Please select an option'},
+        {value: 'text', text: 'Teksta jautājums'},
+        {value: 'radio', text: 'Radio type jautajums'},
+        {value: 'select', text: 'Select type'},
       ],
 
       isVisibleTextForm: false,
@@ -68,7 +64,6 @@ export default {
   },
   methods: {
     addQuestion(event) {
-      console.log(event)
       if (event === this.text) {
         this.isVisibleTextForm = true
         this.isVisibleRadioForm = false
@@ -84,31 +79,13 @@ export default {
       }
     },
 
+    closeAllComponents() {
+      this.isVisibleSelectForm = false
+      this.isVisibleRadioForm = false
+      this.isVisibleTextForm = false
+    },
     createQuestion(newQuestion) {
       this.questions.push(newQuestion);
-    },
-    createRadio(newRadio) {
-      this.questions.push(newRadio);
-    },
-    createSelect(newSelect) {
-      this.questions.push(newSelect);
-    },
-
-    addTextComponent1() {
-      this.isVisibleSelectForm = false
-      this.isVisibleRadioForm = false
-      this.isVisibleTextForm = false
-    },
-
-    addRadioComponent1() {
-      this.isVisibleSelectForm = false
-      this.isVisibleRadioForm = false
-      this.isVisibleTextForm = false
-    },
-    addSelectComponent1() {
-      this.isVisibleSelectForm = false
-      this.isVisibleRadioForm = false
-      this.isVisibleTextForm = false
     }
   }
 }

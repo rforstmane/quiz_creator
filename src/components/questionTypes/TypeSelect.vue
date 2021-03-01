@@ -1,17 +1,17 @@
 <template>
   <div class='ui basic content center aligned segment'>
     <div class='ui centered card'>
-      <div>
-        <div class='content'>
+      <div class='content'>
+        <div>
+          <input
+              v-model="questionText"
+              placeholder="Ievadi savu jautājumu"
+              type='text'>
 
-          <input v-model="questionText"
-                 placeholder="Ievadi savu jautājumu"
-                 type='text'>
-
-
-          <div class="field"
-               v-for="(option, index) in selects"
-               :key="index">
+          <div
+              class="field"
+              v-for="(option, index) in selects"
+              :key="index">
 
             <div>
               <input disabled type="radio" :id="index" v-model="option.value">
@@ -20,6 +20,7 @@
             </div>
           </div>
         </div>
+
         <p @click="addSelectOption()">addd</p>
 
         <b-button variant="success" v-on:click="sendForm()">
@@ -66,11 +67,7 @@ export default {
       })
     },
     closeForm() {
-      this.isVisibleRadioForm = false;
-      const isVisibleRadioForm = this.isVisibleRadioForm
-      this.$emit('hide-form', {
-        isVisibleRadioForm
-      })
+      this.$parent.closeAllComponents()
     },
     sendForm() {
 

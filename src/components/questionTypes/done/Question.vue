@@ -46,34 +46,34 @@
       </div>
     </div>
     <div class="content" v-show="isEditing">
-      <div class='ui form'>
 
+      <div class='ui form'>
         <div
             v-if="question.type === 'simpleQuestion' "
             class='field'>
           <label>Question</label>
           <input type='text' v-model="question.questionText">
         </div>
-        <div
-            v-if="question.type === 'radioQuestion'"
-            class='field'>
+        <div v-if="question.type === 'radioQuestion'"
+             class='field'>
           <label>Question</label>
           <input type='text' v-model="question.questionText">
-          <div
-              v-for="(option, index) in question.optionsText"
-              :key="index">
+          <div v-for="(option, index) in question.optionsText"
+               :key="index">
             <input
                 disabled
                 :id="index"
                 type='radio'
                 v-model="option.value">
             <input v-model="option.optionsText "/>
+            <span @click="removeRadioOption(index)">remove</span>
           </div>
+          <p @click="addRadioOption()">addd</p>
         </div>
 
         <div
             v-if="question.type === 'selectQuestion'"
-             class='field'>
+            class='field'>
           <label>Question</label>
           <input type='text' v-model="question.questionText">
           <div
@@ -85,8 +85,9 @@
                 type='radio'
                 v-model="select.value">
             <input v-model="select.selectText "/>
-
+            <span @click="removeSelectOption(index)">remove</span>
           </div>
+          <p @click="addSelectOption()">addd</p>
         </div>
         <div class='ui two button attached buttons'>
           <b-button variant="success" class='ui basic blue button' v-on:click="hideForm">
@@ -104,9 +105,36 @@ export default {
   data() {
     return {
       isEditing: false,
+      options: [
+        {
+          id: '',
+          optionsText: '',
+          value: ''
+        }
+      ]
     };
   },
   methods: {
+    addSelectOption() {
+      this.question.selectText.push({
+        id: '',
+        selectText: ''
+      })
+    },
+    removeSelectOption(index) {
+      this.question.selectText.splice(index, 1)
+    },
+    addRadioOption() {
+      this.question.optionsText.push({
+        id: '',
+        optionsText: '',
+        value: ''
+
+      })
+    },
+    removeRadioOption(index) {
+      this.question.optionsText.splice(index, 1)
+    },
     deleteQuestion(question) {
       this.$emit('delete-question', question);
     },

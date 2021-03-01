@@ -2,31 +2,32 @@
   <div class='ui basic content center aligned segment'>
     <div class='ui centered card'>
       <div class='content'>
-        <div class='ui form'>
-          <div class='field'>
-            <input v-model="questionText"
-                   placeholder="Ievadi savu jautājumu"
-                   type='text'>
-          </div>
+        <div>
 
-          <div class="field"
-               v-for="(option, index) in options"
-               :key="index">
-            <div>
-              <input disabled type="radio" :id="index" v-model="option.value">
-              <input  v-model="option.optionsText" :placeholder=placeholder>
-              <span @click="removeRadioOption(index)">remove</span>
-            </div>
-          </div>
-
-          <p @click="addRadioOption()">addd</p>
-            <b-button variant="success" v-on:click="sendForm()">
-              Create
-            </b-button>
-            <b-button variant="danger" v-on:click="closeForm">
-              Cancel
-            </b-button>
+          <input
+              v-model="questionText"
+              placeholder="Ievadi savu jautājumu"
+              type='text'>
         </div>
+
+        <div
+            class="field"
+            v-for="(option, index) in options"
+            :key="index">
+          <div>
+            <input disabled type="radio" :id="index" v-model="option.value">
+            <input v-model="option.optionsText" :placeholder=placeholder>
+            <span @click="removeRadioOption(index)">remove</span>
+          </div>
+        </div>
+
+        <p @click="addRadioOption()">addd</p>
+        <b-button variant="success" v-on:click="sendForm()">
+          Create
+        </b-button>
+        <b-button variant="danger" v-on:click="closeForm">
+          Cancel
+        </b-button>
       </div>
     </div>
   </div>
@@ -66,16 +67,12 @@ export default {
       })
     },
     closeForm() {
-      this.isVisibleRadioForm = false;
-      const isVisibleRadioForm = this.isVisibleRadioForm
-      this.$emit('hide-form', {
-        isVisibleRadioForm
-      })
+      this.$parent.closeAllComponents()
     },
     sendForm() {
 
       let hasBlank = false
-      if(this.questionText === '') {
+      if (this.questionText === '') {
         hasBlank = true
       }
       for (let i = 0; i < this.options.length; i++) {
