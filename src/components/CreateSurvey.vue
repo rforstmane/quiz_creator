@@ -23,6 +23,9 @@
             v-if="isVisibleSelectForm"
             v-on:create-select="createQuestion"/>
       </div>
+
+      <b-button v-show="questions.length > 0" @click="addSurvey">Saglabāt aptauju</b-button>
+
     </div>
   </div>
 </template>
@@ -63,6 +66,17 @@ export default {
     }
   },
   methods: {
+    addSurvey() {
+
+      // localStorage.setItem("surveys", JSON.stringify(this.questions))
+
+      this.$router.push({
+        name: 'Created',
+        params: {surveys: this.questions}
+      })
+
+      console.log(this.questions)
+    },
     addQuestion(event) {
       if (event === this.text) {
         this.isVisibleTextForm = true
