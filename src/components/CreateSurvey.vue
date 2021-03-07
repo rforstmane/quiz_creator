@@ -11,6 +11,14 @@
 
     <div class="col-8">
       <div>
+
+<!--        FIX THIS-->
+<!--        <div>-->
+<!--          <label>Aptaujas nosaukums:</label>-->
+<!--          <input-->
+<!--              type="text"-->
+<!--              v-model="questions.title">-->
+<!--        </div>-->
         <QuestionList
             v-bind:questions="questions"/>
         <TypeText
@@ -68,14 +76,13 @@ export default {
   methods: {
     addSurvey() {
 
-      // localStorage.setItem("surveys", JSON.stringify(this.questions))
+      let existingSurveys = JSON.parse(localStorage.getItem("allSurveys"))
+      if(existingSurveys === null) existingSurveys = []
 
-      this.$router.push({
-        name: 'Created',
-        params: {surveys: this.questions}
-      })
+      localStorage.setItem("survey", JSON.stringify(this.questions))
+      existingSurveys.push(this.questions)
+      localStorage.setItem("allSurveys", JSON.stringify(existingSurveys));
 
-      console.log(this.questions)
     },
     addQuestion(event) {
       if (event === this.text) {
