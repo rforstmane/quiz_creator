@@ -36,6 +36,10 @@
               {{ select.selectText }}
             </option>
           </select>
+          <div>
+            <span><b>{{ question.selectType }}</b>select </span>
+          </div>
+
         </div>
       </div>
 
@@ -71,9 +75,8 @@
           <p @click="addRadioOption()">addd</p>
         </div>
 
-        <div
-            v-if="question.type === 'selectQuestion'"
-            class='field'>
+        <div v-if="question.type === 'selectQuestion'"
+             class='field'>
           <label>Question</label>
           <input type='text' v-model="question.questionText">
           <div
@@ -88,6 +91,18 @@
             <span @click="removeSelectOption(index)">remove</span>
           </div>
           <p @click="addSelectOption()">addd</p>
+          <div>
+            <input type="radio" :id="'single' + itemId" value="single" v-model="selectType"
+                   :checked="question.selectType">
+            <label :for="'single' + itemId">Single Select</label>
+            <br>
+            <input type="radio" :id="'multiple' + itemId" value="multiple" v-model="selectType"
+                   :checked="question.selectType">
+            <label :for="'multiple' + itemId">Multiple Select</label>
+          </div>
+
+          <p>Izvēlētais select veids: {{ question.selectType = selectType }}</p>
+
         </div>
         <div class='ui two button attached buttons'>
           <b-button variant="success" class='ui basic blue button' v-on:click="hideForm">
@@ -105,6 +120,7 @@ export default {
   data() {
     return {
       isEditing: false,
+      selectType: this.question.selectType,
       options: [
         {
           id: '',

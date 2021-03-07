@@ -19,9 +19,17 @@
               <span @click="removeSelectOption(index)">remove</span>
             </div>
           </div>
-        </div>
 
-        <p @click="addSelectOption()">addd</p>
+          <p @click="addSelectOption()">addd</p>
+          <div>
+            <input type="radio" id="single" value="single" v-model="selectType">
+            <label for="single">Single Select</label>
+            <br>
+            <input type="radio" id="multiple" value="multiple" v-model="selectType">
+            <label for="multiple">Multiple Select</label>
+          </div>
+          <p>Izvēlētais select veids: {{ selectType }}</p>
+        </div>
 
         <b-button variant="success" v-on:click="sendForm()">
           Create
@@ -46,7 +54,7 @@ export default {
       placeholder: 'Raksti savu opciju',
       selectText: '',
       questionText: '',
-
+      selectType: 'single',
       selects: [
         {
           id: '',
@@ -87,12 +95,15 @@ export default {
         const questionText = this.questionText;
         const selectText = this.selects;
         const type = this.type
+        const selectType = this.selectType
         this.$emit('create-select', {
           selectText,
           questionText,
-          type
+          type,
+          selectType
         });
         this.questionText = '';
+        this.selectType= 'single';
         this.selects = [{
           id: '',
           selectText: '',

@@ -1,6 +1,7 @@
 <template>
   <div>
     <p class="tasks">Total Questions: {{questions.length }}</p>
+    <p>Aptaujas nosaukums:</p>
     <Question
         v-on:delete-question="deleteQuestion"
         v-for="(question, index) in questions"
