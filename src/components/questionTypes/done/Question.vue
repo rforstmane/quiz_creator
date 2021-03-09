@@ -1,115 +1,124 @@
 <template>
-  <div class='ui centered card'>
+  <div class='card question'>
     <div class="content" v-show="!isEditing">
       <div class='header'>
-        {{ itemId + 1 + '.' + question.questionText + '?' }}
-        <div v-if="question.type === 'simpleQuestion' ">
+        {{ itemId + 1 + '.' + question.questionText }}
+        <div class="text-input__question"
+             v-if="question.type === 'simpleQuestion'">
           <input
               type='text'
               disabled
-              placeholder="Atbildes lauks"
-              v-model="question.questionAnswer">
+              v-model="question.questionText">
         </div>
-        <div v-if="question.type === 'radioQuestion' ">
 
-          <div
-              v-for="(option, index) in question.optionsText"
-              :key="index">
-            <input
-                :id="index"
-                type='radio'
-                disabled
-                v-model="option.value">
+        <div class="radio-input__question"
+             v-if="question.type === 'radioQuestion' ">
+          <div class="radio-input__options"
+               v-for="(option, index) in question.optionsText"
+               :key="index">
+
+            <input :id="index" type='radio' disabled>
             <label :for="index">{{ option.optionsText }}</label>
 
           </div>
         </div>
 
-        <div v-if="question.type === 'selectQuestion' ">
+        <div class="select-input__question"
+             v-if="question.type === 'selectQuestion' ">
           <select>
-            <option>default</option>
+            <option selected disabled>Select your option</option>
             <option
                 disabled
                 v-for="(select, index) in question.selectText"
+                :value="index"
                 :key="index"
                 :id="index">
               {{ select.selectText }}
             </option>
           </select>
+
           <div>
-            <span><b>{{ question.selectType }}</b>select </span>
+            <span><b>{{ question.selectType }}</b> select</span>
           </div>
 
         </div>
       </div>
 
-      <div class='extra content'>
-        <b-button v-on:click="showForm" variant="warning">Edit</b-button>
+      <div>
+        <b-button v-on:click="editQuestion" variant="warning">Edit</b-button>
         <b-button v-on:click="deleteQuestion(question)" variant="danger">Delete</b-button>
 
       </div>
     </div>
     <div class="content" v-show="isEditing">
 
-      <div class='ui form'>
-        <div
-            v-if="question.type === 'simpleQuestion' "
-            class='field'>
-          <label>Question</label>
-          <input type='text' v-model="question.questionText">
-        </div>
-        <div v-if="question.type === 'radioQuestion'"
-             class='field'>
-          <label>Question</label>
-          <input type='text' v-model="question.questionText">
-          <div v-for="(option, index) in question.optionsText"
-               :key="index">
-            <input
-                disabled
-                :id="index"
-                type='radio'
-                v-model="option.value">
-            <input v-model="option.optionsText "/>
-            <span @click="removeRadioOption(index)">remove</span>
-          </div>
-          <p @click="addRadioOption()">addd</p>
-        </div>
+      <div class="text-input__question"
+           v-if="question.type === 'simpleQuestion'">
+        <label>Your Question</label>
+        <input type='text' v-model="question.questionText">
+      </div>
 
-        <div v-if="question.type === 'selectQuestion'"
-             class='field'>
-          <label>Question</label>
-          <input type='text' v-model="question.questionText">
-          <div
-              v-for="(select, index) in question.selectText"
-              :key="index">
-            <input
-                disabled
-                :id="index"
-                type='radio'
-                v-model="select.value">
-            <input v-model="select.selectText "/>
-            <span @click="removeSelectOption(index)">remove</span>
-          </div>
-          <p @click="addSelectOption()">addd</p>
-          <div>
-            <input type="radio" :id="'single' + itemId" value="single" v-model="selectType"
-                   :checked="question.selectType">
-            <label :for="'single' + itemId">Single Select</label>
-            <br>
-            <input type="radio" :id="'multiple' + itemId" value="multiple" v-model="selectType"
-                   :checked="question.selectType">
-            <label :for="'multiple' + itemId">Multiple Select</label>
-          </div>
+      <div class="radio-input__question"
+           v-if="question.type === 'radioQuestion'">
+        <label>Your Question</label>
+        <input type='text' v-model="question.questionText">
 
-          <p>Izvēlētais select veids: {{ question.selectType = selectType }}</p>
-
-        </div>
-        <div class='ui two button attached buttons'>
-          <b-button variant="success" class='ui basic blue button' v-on:click="hideForm">
-            Save
+        <div class="radio-input__options"
+             v-for="(option, index) in question.optionsText"
+             :key="index">
+          <input
+              disabled
+              :id="index"
+              type='radio'
+              v-model="option.value">
+          <input v-model="option.optionsText "/>
+          <b-button v-if="question.optionsText.length > 1" variant="outline-danger" @click="removeRadioOption(index)">
+            -
           </b-button>
         </div>
+
+        <b-button variant="outline-warning" @click="addRadioOption()">+</b-button>
+
       </div>
+
+      <div class="select-input__question"
+           v-if="question.type === 'selectQuestion'">
+        <label>Your Question</label>
+        <input type='text' v-model="question.questionText">
+        <div class="select-input__options"
+             v-for="(select, index) in question.selectText"
+             :key="index">
+          <input
+              disabled
+              :id="index"
+              type='radio'
+              v-model="select.value">
+          <input v-model="select.selectText "/>
+          <b-button v-if="question.selectText.length > 1" variant="outline-danger" @click="removeSelectOption(index)">
+            -
+          </b-button>
+        </div>
+
+        <b-button variant="outline-warning" @click="addSelectOption()">+</b-button>
+
+        <div class="select-input__options-type">
+          <input type="radio" :id="'single' + itemId" value="single" v-model="selectType"
+                 :checked="question.selectType">
+          <label :for="'single' + itemId">Single Select</label>
+          <br>
+          <input type="radio" :id="'multiple' + itemId" value="multiple" v-model="selectType"
+                 :checked="question.selectType">
+          <label :for="'multiple' + itemId">Multiple Select</label>
+        </div>
+
+        <p>Selected Type: {{ question.selectType = selectType }}</p>
+
+      </div>
+      <b-alert class="mb-0" :show="showErrorAlert" variant="danger">Empty question/option field</b-alert>
+
+      <b-button variant="success" v-on:click="saveChanges">
+        Save changes
+      </b-button>
     </div>
   </div>
 </template>
@@ -119,6 +128,7 @@ export default {
   props: ['question', 'itemId'],
   data() {
     return {
+      showErrorAlert: false,
       isEditing: false,
       selectType: this.question.selectType,
       options: [
@@ -137,28 +147,71 @@ export default {
         selectText: ''
       })
     },
+
     removeSelectOption(index) {
-      this.question.selectText.splice(index, 1)
+      if (confirm("Are you sure?")) {
+        this.question.selectText.splice(index, 1)
+      }
     },
+
     addRadioOption() {
       this.question.optionsText.push({
         id: '',
         optionsText: '',
         value: ''
-
       })
     },
+
     removeRadioOption(index) {
-      this.question.optionsText.splice(index, 1)
+      if (confirm("Are you sure?")) {
+        this.question.optionsText.splice(index, 1)
+      }
     },
+
     deleteQuestion(question) {
-      this.$emit('delete-question', question);
+      if (confirm("Are you sure?")) {
+        this.$emit('delete-question', question)
+      }
     },
-    showForm() {
+
+    editQuestion() {
       this.isEditing = true;
     },
-    hideForm() {
-      this.isEditing = false;
+
+    saveChanges() {
+
+      let hasBlank = false
+      console.log(hasBlank)
+      if (this.question.questionText === '') {
+        hasBlank = true
+        this.showErrorAlert = true
+      } else {
+        hasBlank = false
+        this.showErrorAlert = false
+        this.isEditing = false
+      }
+      if(this.question.type === 'radioQuestion') {
+        for (let i = 0; i < this.question.optionsText.length; i++) {
+          let isOptionText = this.question.optionsText[i].optionsText
+
+          if (isOptionText === '') {
+            hasBlank = true
+            this.showErrorAlert = true
+            this.isEditing = true
+          }
+        }
+      }
+
+      if(this.question.type === 'selectQuestion') {
+        for (let i = 0; i < this.question.selectText.length; i++) {
+          let isSelectText = this.question.selectText[i].selectText
+          if (isSelectText === '') {
+            hasBlank = true
+            this.showErrorAlert = true
+            this.isEditing = true
+          }
+        }
+      }
     },
   },
 };

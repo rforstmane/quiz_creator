@@ -1,23 +1,21 @@
 <template>
-  <div class='ui basic content center aligned segment'>
-    <div class='ui centered card'>
-      <div class='content'>
-        <div>
+    <div class="card text-input">
+      <div class="container">
+        <div class="text-input__question">
           <input
               v-model="questionText"
-              placeholder="Ievadi savu jautājumu"
+              placeholder="Write question..."
               type='text'>
         </div>
-        <b-alert :show="showErrorAlert" variant="danger">Nav ievadīts jautajums</b-alert>
-        <b-button variant="success" v-on:click="sendForm()">
-          Create
+        <b-alert class="mb-0" :show="showErrorAlert" variant="danger">Empty question field</b-alert>
+        <b-button variant="success" v-on:click="addQuestion()">
+          Add
         </b-button>
-        <b-button variant="danger" v-on:click="closeForm">
+        <b-button variant="danger" v-on:click="cancelQuestion">
           Cancel
         </b-button>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -30,10 +28,12 @@ export default {
     };
   },
   methods: {
-    closeForm() {
-      this.$parent.closeAllComponents()
+    cancelQuestion() {
+      if (confirm("Are you sure?")) {
+        this.$parent.closeAllComponents()
+      }
     },
-    sendForm() {
+    addQuestion() {
       if (this.questionText.length > 0) {
         this.showErrorAlert = false
 

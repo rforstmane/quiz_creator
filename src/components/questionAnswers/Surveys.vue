@@ -1,12 +1,10 @@
 <template>
   <div>
-
-    <p>Aptaujas nosaukums:</p>
-
-    <b-button v-on:click="questionIndex = 0" v-show="questionIndex === null">Aizpildīt aptauju</b-button>
+    <b-button v-on:click="startQuiz" v-show="questionIndex === null">
+      {{ survey.id }} </b-button>
 
     <Question
-        v-for="(question, index) in survey"
+        v-for="(question, index) in survey.questions"
         :key="index"
         :itemId="index"
         :question="question"
@@ -17,11 +15,11 @@
 
     <b-button v-if="questionIndex > 0" @click="prevQuestion">prev question</b-button>
 
-    <b-button v-if="questionIndex !== null && questionIndex < survey.length -1" @click="nextQuestion">next
+    <b-button v-if="questionIndex !== null && questionIndex < survey.questions.length -1" @click="nextQuestion">next
       question
     </b-button>
 
-    <b-button v-if="questionIndex === survey.length -1" @click="saveAnswers">Iesniegt atbildes
+    <b-button v-if="questionIndex === survey.questions.length -1" @click="saveAnswers">Iesniegt atbildes
     </b-button>
 
 
@@ -34,15 +32,21 @@ export default {
   components: {
     Question
   },
-  props: ['survey'],
+  props: ['survey', 'itemId'],
   data() {
     return {
       questionIndex: null,
       questionLength: '',
-      answerData: [],
+      answerData: {
+        id: this.survey.id,
+        answers: []
+      },
     }
   },
   methods: {
+    startQuiz() {
+     this.questionIndex = 0
+    },
     nextQuestion() {
       this.$refs.handleChanges[this.questionIndex].sendData()
       this.questionIndex++
@@ -53,13 +57,13 @@ export default {
     },
 
     handleChange(data) {
-      let exists = this.answerData.some(function (item) {
+      let exists = this.answerData.answers.some(function (item) {
         return item.id === data.id
       })
       if(!exists) {
-        this.answerData.push(data)
+        this.answerData.answers.push(data)
       } else {
-       this.answerData[data.id] = data
+       this.answerData.answers[data.id] = data
       }
     },
 

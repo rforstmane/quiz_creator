@@ -1,35 +1,42 @@
 <template>
   <div>
-    <!--          jautajumu daļa -->
-    <div v-if="itemId === questionIndex" v-bind:key="itemId">
-      {{ itemId + 1 + '.' + question.questionText }}
+    <!--          Questions -->
+    <div class="card"
+         v-if="itemId === questionIndex" v-bind:key="itemId">
 
-      <!--          atbilžu daļa-->
-      <div v-if="question.type === 'simpleQuestion' ">
-        <input type="text" placeholder="Ievadi atbildi" v-model="answer">
+      <h2>{{ itemId + 1 + '.' + question.questionText }}</h2>
 
+      <!--          Answers -->
+      <div class="text-input__question"
+           v-if="question.type === 'simpleQuestion' ">
+        <input type="text"
+               placeholder="Write answer"
+               v-model="answer">
       </div>
 
-      <div v-if="question.type === 'radioQuestion' ">
-        <div v-for="(option, index) in question.optionsText" :key="index">
+      <div class="radio-input__question"
+           v-if="question.type === 'radioQuestion' ">
+        <div class="radio-input__options"
+             v-for="(option, index) in question.optionsText"
+             :key="index">
           <input
-
               :value="option.optionsText"
               :id="index"
               type='radio'
               v-model="answer">
           <label :for="index">{{ option.optionsText }}</label>
-          <p>{{ questionIndex.optionsText }}</p>
         </div>
       </div>
 
-      <div v-if="question.type === 'selectQuestion' ">
-        <div>{{ question.selectType }}
-        </div>
-        <select v-bind:multiple="question.selectType === 'multiple' " v-model="answer">
+      <div class="select-input__question"
+           v-if="question.type === 'selectQuestion' ">
+        <div>Type: <b>{{ question.selectType }}</b></div>
 
+        <select v-bind:multiple="question.selectType === 'multiple' " v-model="answer">
+          <option v-show="question.selectType === 'single'" value="" selected disabled>Select your option</option>
           <option
               v-for="(select, index) in question.selectText"
+              :value="index"
               :key="index"
               :id="index">
             {{ select.selectText }}

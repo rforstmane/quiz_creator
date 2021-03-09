@@ -12,15 +12,15 @@
     <div class="col-8">
       <div>
 
-<!--        FIX THIS-->
-<!--        <div>-->
-<!--          <label>Aptaujas nosaukums:</label>-->
-<!--          <input-->
-<!--              type="text"-->
-<!--              v-model="questions.title">-->
-<!--        </div>-->
-        <QuestionList
-            v-bind:questions="questions"/>
+        <div>
+          <label for="surveyID">Title of Survey: </label>
+          <input
+              id="surveyID"
+              type="text"
+              v-model="survey.id">
+        </div>
+        <Survey
+            v-bind:survey="survey.questions"/>
         <TypeText
             v-if="isVisibleTextForm"
             v-on:create-question="createQuestion"/>
@@ -32,7 +32,7 @@
             v-on:create-select="createQuestion"/>
       </div>
 
-      <b-button v-show="questions.length > 0" @click="addSurvey">Saglabāt aptauju</b-button>
+      <b-button v-show="survey.questions.length > 0" @click="addSurvey">Saglabāt aptauju</b-button>
 
     </div>
   </div>
@@ -41,16 +41,16 @@
 <script>
 
 import TypeText from "@/components/questionTypes/TypeText";
-import QuestionList from "@/components/questionTypes/done/QuestionList";
 import TypeRadio from "@/components/questionTypes/TypeRadio";
 import TypeSelect from "@/components/questionTypes/TypeSelect";
+import Survey from "@/components/questionTypes/done/Survey";
 
 export default {
   name: 'Create',
   components: {
+    Survey,
     TypeSelect,
     TypeRadio,
-    QuestionList,
     TypeText
   },
   data() {
@@ -62,15 +62,21 @@ export default {
 
       options: [
         {value: null, text: 'Please select an option'},
-        {value: 'text', text: 'Teksta jautājums'},
-        {value: 'radio', text: 'Radio type jautajums'},
-        {value: 'select', text: 'Select type'},
+        {value: 'text', text: 'Type Text'},
+        {value: 'radio', text: 'Type Radio'},
+        {value: 'select', text: 'Type Selection'},
       ],
 
       isVisibleTextForm: false,
       isVisibleRadioForm: false,
       isVisibleSelectForm: false,
-      questions: [],
+
+      allSurveys: {},
+      survey: {
+        id: '',
+        questions: []
+      },
+
     }
   },
   methods: {
@@ -79,9 +85,11 @@ export default {
       let existingSurveys = JSON.parse(localStorage.getItem("allSurveys"))
       if(existingSurveys === null) existingSurveys = []
 
-      localStorage.setItem("survey", JSON.stringify(this.questions))
-      existingSurveys.push(this.questions)
+      localStorage.setItem("survey", JSON.stringify(this.survey))
+      existingSurveys.push(this.survey)
       localStorage.setItem("allSurveys", JSON.stringify(existingSurveys));
+
+      this.$router.push('created')
 
     },
     addQuestion(event) {
@@ -106,7 +114,7 @@ export default {
       this.isVisibleTextForm = false
     },
     createQuestion(newQuestion) {
-      this.questions.push(newQuestion);
+      this.survey.questions.push(newQuestion);
     }
   }
 }

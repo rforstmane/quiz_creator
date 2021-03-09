@@ -1,34 +1,34 @@
 <template>
-  <div class='ui basic content center aligned segment'>
-    <div class='ui centered card'>
-      <div class='content'>
-        <div>
-
-          <input
-              v-model="questionText"
-              placeholder="Ievadi savu jautājumu"
-              type='text'>
-        </div>
-
-        <div
-            class="field"
-            v-for="(option, index) in options"
-            :key="index">
-          <div>
-            <input disabled type="radio" :id="index" v-model="option.value">
-            <input v-model="option.optionsText" :placeholder=placeholder>
-            <span @click="removeRadioOption(index)">remove</span>
-          </div>
-        </div>
-
-        <p @click="addRadioOption()">addd</p>
-        <b-button variant="success" v-on:click="sendForm()">
-          Create
-        </b-button>
-        <b-button variant="danger" v-on:click="closeForm">
-          Cancel
-        </b-button>
+  <div class="card radio-input">
+    <div class="container">
+      <div class="radio-input__question">
+        <input
+            v-model="questionText"
+            placeholder="Write question..."
+            type='text'>
       </div>
+
+      <div class="radio-input__options"
+           v-for="(option, index) in options"
+           :key="index">
+        <div>
+          <input disabled type="radio" :id="index" v-model="option.value">
+          <input v-model="option.optionsText" :placeholder=placeholder>
+          <b-button v-if="options.length > 1" variant="outline-danger" @click="removeRadioOption(index)">-</b-button>
+        </div>
+      </div>
+
+      <b-button variant="outline-warning" @click="addRadioOption()">+</b-button>
+      <br>
+
+      <b-alert class="mb-0" :show="showErrorAlert" variant="danger">Empty question/option field</b-alert>
+
+      <b-button variant="success" v-on:click="addQuestion()">
+        Add
+      </b-button>
+      <b-button variant="danger" v-on:click="cancelQuestion">
+        Cancel
+      </b-button>
     </div>
   </div>
 </template>
@@ -42,11 +42,10 @@ export default {
   data() {
     return {
       type: 'radioQuestion',
-      placeholder: 'Raksti savu opciju',
+      placeholder: 'Write your option',
       optionsText: '',
       questionText: '',
-
-      picked: '',
+      showErrorAlert: false,
       options: [
         {
           id: '',
@@ -57,8 +56,15 @@ export default {
     };
   },
   methods: {
+    cancelQuestion() {
+      if (confirm("Are you sure?")) {
+        this.$parent.closeAllComponents()
+      }
+    },
     removeRadioOption(index) {
-      this.options.splice(index, 1)
+      if (confirm("Are you sure?")) {
+        this.options.splice(index, 1)
+      }
     },
     addRadioOption() {
       this.options.push({
@@ -66,24 +72,24 @@ export default {
         optionsText: ''
       })
     },
-    closeForm() {
-      this.$parent.closeAllComponents()
-    },
-    sendForm() {
 
+    addQuestion() {
       let hasBlank = false
       if (this.questionText === '') {
         hasBlank = true
+        this.showErrorAlert = true
       }
       for (let i = 0; i < this.options.length; i++) {
         let isOptionText = this.options[i].optionsText
 
         if (isOptionText === '') {
           hasBlank = true
+          this.showErrorAlert = true
         }
       }
 
       if (!hasBlank) {
+        this.showErrorAlert = false
         const questionText = this.questionText;
         const optionsText = this.options;
         const type = this.type
