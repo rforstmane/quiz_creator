@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import CreateSurvey from "@/components/createSurvey/CreateSurvey";
 import Created from "@/components/createdSurveys/CreatedSurveys";
 import Results from "@/components/results/Results";
+import SurveyResults from "@/components/results/SurveyResults";
 
 const routes = [
     {
@@ -23,6 +24,11 @@ const routes = [
         path: "/results",
         name: "Results",
         component: Results
+    },
+    {
+        path: "/results/:id",
+        name: "Survey Results",
+        component: SurveyResults
     }
 ]
 

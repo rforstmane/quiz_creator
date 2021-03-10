@@ -1,29 +1,26 @@
 <template>
   <div class="created-surveys">
-    <div class="container">
 
-      <h1 v-if="allSurveys">Choose survey</h1>
-
-      <Surveys
-          v-for="(survey, index) in allSurveys"
-          :key="index"
-          :itemId="index"
-          :survey="survey"
-      />
-    </div>
+    <h4 class="my-3" v-if="allSurveys">Choose survey to fill</h4>
+    <Survey
+        v-for="(survey, index) in allSurveys"
+        :key="index"
+        :survey="survey"
+        :surveyID="survey.id"
+    />
   </div>
 
 </template>
 
 <script>
 
-import Surveys from "@/components/createdSurveys/Surveys";
+import Survey from "@/components/createdSurveys/Survey";
+
 export default {
-  components: {Surveys},
-  name: 'Completed',
+  components: {Survey},
+  name: 'CreatedSurveys',
   data() {
     return {
-      questionIndex: null,
       allSurveys: JSON.parse(localStorage.getItem("allSurveys")),
     }
   },
