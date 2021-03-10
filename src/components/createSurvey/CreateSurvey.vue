@@ -1,24 +1,26 @@
 <template>
   <div class="row d-flex mt-5">
-    <div class="button-block col-4">
+    <div class="button-block col-12 col-md-4">
       <b-form-select
           @change="addQuestion"
           v-model="selected"
           :options="options">
       </b-form-select>
-      <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+      <div class="mt-3">Selected: <b>{{ selected }}</b></div>
     </div>
 
-    <div class="col-8">
+    <div class="col-12 col-md-8">
       <div>
-
-        <div>
+        <div class="survey-title mb-4">
           <label for="surveyID">Title of Survey: </label>
           <input
               id="surveyID"
               type="text"
-              v-model="survey.id">
+              v-model="survey.title">
         </div>
+
+        <b-alert class="mb-0" :show="showErrorAlert" variant="danger">Empty Survey Title</b-alert>
+
         <Survey
             v-bind:survey="survey.questions"/>
         <TypeText
@@ -31,22 +33,24 @@
             v-if="isVisibleSelectForm"
             v-on:create-select="createQuestion"/>
       </div>
-
-      <b-button v-show="survey.questions.length > 0" @click="addSurvey">Saglabāt aptauju</b-button>
-
+      <b-button
+          v-show="survey.questions.length > 0"
+          @click="addSurvey">Saglabāt aptauju
+      </b-button>
     </div>
   </div>
 </template>
 
 <script>
 
-import TypeText from "@/components/questionTypes/TypeText";
-import TypeRadio from "@/components/questionTypes/TypeRadio";
-import TypeSelect from "@/components/questionTypes/TypeSelect";
-import Survey from "@/components/questionTypes/done/Survey";
+import TypeText from "@/components/createSurvey/questionTypes/TypeText";
+import TypeRadio from "@/components/createSurvey/questionTypes/TypeRadio";
+import TypeSelect from "@/components/createSurvey/questionTypes/TypeSelect";
+import Survey from "@/components/createSurvey/Survey";
+import {v4 as uuidv4} from 'uuid';
 
 export default {
-  name: 'Create',
+  name: 'CreateSurvey',
   components: {
     Survey,
     TypeSelect,
@@ -59,12 +63,13 @@ export default {
       text: 'text',
       radio: 'radio',
       select: 'select',
+      showErrorAlert: false,
 
       options: [
         {value: null, text: 'Please select an option'},
         {value: 'text', text: 'Type Text'},
         {value: 'radio', text: 'Type Radio'},
-        {value: 'select', text: 'Type Selection'},
+        {value: 'select', text: 'Type Select'},
       ],
 
       isVisibleTextForm: false,
@@ -72,26 +77,32 @@ export default {
       isVisibleSelectForm: false,
 
       allSurveys: {},
+
       survey: {
-        id: '',
+        id: uuidv4(),
+        title: '',
         questions: []
       },
-
     }
   },
   methods: {
     addSurvey() {
+      if (this.survey.id === '') {
+        this.showErrorAlert = true
+      } else {
+        this.showErrorAlert = false
 
-      let existingSurveys = JSON.parse(localStorage.getItem("allSurveys"))
-      if(existingSurveys === null) existingSurveys = []
+        let existingSurveys = JSON.parse(localStorage.getItem("allSurveys"))
+        if (existingSurveys === null) existingSurveys = []
 
-      localStorage.setItem("survey", JSON.stringify(this.survey))
-      existingSurveys.push(this.survey)
-      localStorage.setItem("allSurveys", JSON.stringify(existingSurveys));
+        localStorage.setItem("survey", JSON.stringify(this.survey))
+        existingSurveys.push(this.survey)
+        localStorage.setItem("allSurveys", JSON.stringify(existingSurveys));
 
-      this.$router.push('complete')
-
+        this.$router.push('created')
+      }
     },
+
     addQuestion(event) {
       if (event === this.text) {
         this.isVisibleTextForm = true

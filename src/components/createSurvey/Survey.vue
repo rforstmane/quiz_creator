@@ -11,16 +11,12 @@
 </template>
 
 <script>
-import Question from "@/components/questionTypes/done/Question";
+import Question from "@/components/createSurvey/Question";
 
 export default {
   props: ['survey'],
   components: {
     Question,
-  },
-  data() {
-    return {
-    }
   },
   methods: {
     deleteQuestion(question) {
