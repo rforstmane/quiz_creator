@@ -5,15 +5,25 @@
 
 
     <ol v-for="question in survey.questions" :key="question.id">
-      <li>{{ question.questionText }}</li>
+      <li>
+
+        <QuestionAnswer
+            :allAnswers="allAnswers"
+            :question="question"
+        />
+
+
+      </li>
 
     </ol>
   </div>
 </template>
 
 <script>
+import QuestionAnswer from "@/components/results/QuestionAnswer";
 export default {
   name: 'SurveyResults',
+  components: {QuestionAnswer},
   data() {
     return {
       allAnswers: JSON.parse(localStorage.getItem("allAnswers")),
