@@ -6,7 +6,6 @@
       <div >{{countResults(option.id, answers)}}/{{answers.length}} </div>
     </div>
 
-    {{answers}}
 
   </div>
 

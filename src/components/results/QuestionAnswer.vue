@@ -6,16 +6,19 @@
       <div v-if="question.type === 'simpleQuestion'">
         <TextAnswers
         :answers="answers"/>
-<!--        {{answers}}-->
       </div>
+
       <div v-if="question.type === 'radioQuestion'">
         <RadioAnswers
             :answers="answers"
             :question="question"/>
-        <!--        {{answers}}-->
       </div>
 
-
+      <div v-if="question.type === 'selectQuestion'">
+        <SelectAnswers
+            :answers="answers"
+            :question="question"/>
+      </div>
 
 
 
@@ -26,8 +29,9 @@
 <script>
 import TextAnswers from "@/components/results/TextAnswers";
 import RadioAnswers from "@/components/results/RadioAnswers";
+import SelectAnswers from "@/components/results/SelectAnswers";
 export default {
-  components: {RadioAnswers, TextAnswers},
+  components: {SelectAnswers, RadioAnswers, TextAnswers},
   props: ['question', 'allAnswers'],
   data() {
     return {
