@@ -89,7 +89,7 @@ export default {
       existingSurveys.push(this.survey)
       localStorage.setItem("allSurveys", JSON.stringify(existingSurveys));
 
-      this.$router.push('created')
+      this.$router.push('complete')
 
     },
     addQuestion(event) {

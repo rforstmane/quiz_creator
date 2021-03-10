@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import Question from "@/components/questionAnswers/Question";
+import Question from "@/components/createdSurveys/Question";
 
 export default {
   components: {

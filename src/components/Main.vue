@@ -6,11 +6,11 @@
     </b-button>
 
     <b-button>
-      <router-link to="/created">Created Survey</router-link>
+      <router-link to="/created">Created Surveys</router-link>
     </b-button>
 
     <b-button>
-      <router-link to="/results">See Results</router-link>
+      <router-link to="/results">Results</router-link>
     </b-button>
 
     <router-view></router-view>

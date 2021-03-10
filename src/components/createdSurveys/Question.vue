@@ -36,7 +36,6 @@
           <option v-show="question.selectType === 'single'" value="" selected disabled>Select your option</option>
           <option
               v-for="(select, index) in question.selectText"
-              :value="index"
               :key="index"
               :id="index">
             {{ select.selectText }}

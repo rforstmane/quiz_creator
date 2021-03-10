@@ -4,14 +4,13 @@
         v-for="(answers, index) in allAnswers"
         :key="index"
         :answers="answers"
-        :answersID="index"
     />
   </div>
 </template>
 
 <script>
 
-import SurveyResults from "@/components/results/SurveyResults";
+import SurveyResults from "@/results/SurveyResults";
 export default {
   name: 'Results',
   components: {SurveyResults},

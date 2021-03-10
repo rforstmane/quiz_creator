@@ -1,8 +1,8 @@
 import VueRouter from 'vue-router'
 
-import CreateSurvey from "@/components/CreateSurvey";
-import CreatedSurveys from "@/components/CreatedSurveys";
-import Results from "@/components/Results";
+import CreateSurvey from "@/components/createSurvey/CreateSurvey";
+import Created from "@/components/createdSurveys/CreatedSurveys";
+import Results from "@/components/results/Results";
 
 const routes = [
     {
@@ -11,13 +11,13 @@ const routes = [
     },
     {
         path: "/create",
-        name: "Create",
+        name: "CreateSurvey",
         component: CreateSurvey
     },
     {
         path: "/created",
         name: "Created",
-        component: CreatedSurveys
+        component: Created
     },
     {
         path: "/results",

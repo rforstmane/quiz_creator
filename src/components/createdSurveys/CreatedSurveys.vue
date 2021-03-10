@@ -17,10 +17,10 @@
 
 <script>
 
-import Surveys from "@/components/questionAnswers/Surveys";
+import Surveys from "@/components/createdSurveys/Surveys";
 export default {
   components: {Surveys},
-  name: 'Created',
+  name: 'Completed',
   data() {
     return {
       questionIndex: null,
