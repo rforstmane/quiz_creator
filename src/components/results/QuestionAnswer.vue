@@ -1,12 +1,18 @@
 <template>
   <div>
     <div >
-      {{ question.questionText }}
+      {{ question.questionText + '  jautājums'}}
 
       <div v-if="question.type === 'simpleQuestion'">
         <TextAnswers
         :answers="answers"/>
 <!--        {{answers}}-->
+      </div>
+      <div v-if="question.type === 'radioQuestion'">
+        <RadioAnswers
+            :answers="answers"
+            :question="question"/>
+        <!--        {{answers}}-->
       </div>
 
 
@@ -19,8 +25,9 @@
 
 <script>
 import TextAnswers from "@/components/results/TextAnswers";
+import RadioAnswers from "@/components/results/RadioAnswers";
 export default {
-  components: {TextAnswers},
+  components: {RadioAnswers, TextAnswers},
   props: ['question', 'allAnswers'],
   data() {
     return {
