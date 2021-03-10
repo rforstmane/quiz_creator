@@ -41,6 +41,7 @@
 
 <script>
 import Question from "@/components/createdSurveys/Question";
+import {v4 as uuidv4} from "uuid";
 
 export default {
   components: {
@@ -77,9 +78,9 @@ export default {
       })
 
       if (!exists) {
-        this.answerData.answers.push(data)
+        this.answerData.answers.push({...data, id:uuidv4()})
       } else {
-        this.answerData.answers[this.questionIndex] = data
+        this.answerData.answers[this.questionIndex] = {...data, id:uuidv4()}
       }
     },
 

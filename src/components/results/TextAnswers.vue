@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="answer in answers" :key="answer.answer">
+    <div v-for="answer in answers" :key="answer.id">
       {{answer.answer}}
     </div>
   </div>
