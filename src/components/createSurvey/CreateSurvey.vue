@@ -208,7 +208,6 @@ export default {
       font-size: 18px;
     }
   }
-
   .alert {
     border-radius: 8px;
     border: none;
