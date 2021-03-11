@@ -1,7 +1,7 @@
 <template>
   <div>
     <div >
-      {{ question.questionText + '  jautājums'}}
+      {{ question.questionText}}
 
       <div v-if="question.type === 'simpleQuestion'">
         <TextAnswers
@@ -19,9 +19,6 @@
             :answers="answers"
             :question="question"/>
       </div>
-
-
-
     </div>
   </div>
 </template>
