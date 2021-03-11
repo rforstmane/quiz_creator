@@ -33,7 +33,7 @@ import {v4 as uuidv4} from 'uuid';
 export default {
   data() {
     return {
-      id: uuidv4(),
+      id: '',
       questionText: '',
       type: "simpleQuestion",
       showErrorAlert: false
@@ -51,14 +51,14 @@ export default {
         this.showErrorAlert = false;
         const questionText = this.questionText;
         const type = this.type;
-        const id = this.id;
+        const id = uuidv4();
         this.$emit("create-question", {
           questionText,
           type,
           id
         });
         this.questionText = '';
-        this.id = uuidv4();
+        this.id = '';
         this.isVisibleTextForm = false;
       } else {
         this.showErrorAlert = true;

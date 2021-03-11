@@ -3,7 +3,7 @@
     <Question
           v-on:delete-question="deleteQuestion"
           v-for="(question, index) in survey"
-          :key="index"
+          :key="question.id"
           :itemId="index"
           :question.sync="question">
       </Question>

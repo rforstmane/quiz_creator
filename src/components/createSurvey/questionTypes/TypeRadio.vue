@@ -12,12 +12,11 @@
       <div
           class="radio-input__options"
           v-for="(option, index) in options"
-          :key="index">
+          :key="option.id">
         <div class="mb-2">
           <input
               disabled
-              type="radio"
-              :id="index">
+              type="radio">
           <input
               v-model="option.valueText"
               :placeholder=placeholder>
@@ -65,7 +64,7 @@ export default {
   ],
   data() {
     return {
-      id: uuidv4(),
+      id: '',
       questionText: '',
       type: 'radioQuestion',
       placeholder: 'Write your option',
@@ -116,10 +115,10 @@ export default {
 
       if (!hasBlank) {
         this.showErrorAlert = false
-        const questionText = this.questionText;
-        const options = this.options;
+        const questionText = this.questionText
+        const options = this.options
         const type = this.type
-        const id = this.id
+        const id = uuidv4()
         this.$emit('create-radio', {
           options,
           questionText,

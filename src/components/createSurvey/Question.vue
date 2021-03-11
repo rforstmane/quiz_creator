@@ -19,7 +19,7 @@
           <div
               class="radio-input__options"
               v-for="(option, index) in question.options"
-              :key="index">
+              :key="option.id">
 
             <input
                 :id="index"
@@ -41,7 +41,7 @@
                 disabled
                 v-for="(select, index) in question.selects"
                 :value="index"
-                :key="index"
+                :key="select.id"
                 :id="index">
               {{ select.valueText }}
             </option>
@@ -81,7 +81,7 @@
         <div
             class="radio-input__options"
             v-for="(option, index) in question.options"
-            :key="index">
+            :key="option.id">
           <input
               disabled
               :id="index"
@@ -107,7 +107,7 @@
         <div
             class="select-input__options"
             v-for="(select, index) in question.selects"
-            :key="index">
+            :key="select.id">
           <input
               disabled
               :id="index"

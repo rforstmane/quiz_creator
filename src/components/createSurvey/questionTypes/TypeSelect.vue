@@ -12,12 +12,11 @@
       <div
           class="select-input__options"
           v-for="(option, index) in selects"
-          :key="index">
+          :key="option.id">
         <div class="mb-2">
           <input
               disabled
               type="radio"
-              :id="index"
               v-model="option.value">
           <input
               v-model="option.valueText"
@@ -80,7 +79,7 @@ export default {
   ],
   data() {
     return {
-      id: uuidv4(),
+      id: '',
       questionText: '',
       type: 'selectQuestion',
       placeholder: 'Write your option',
@@ -137,7 +136,7 @@ export default {
         const selects = this.selects;
         const type = this.type
         const selectType = this.selectType
-        const id = this.id
+        const id = uuidv4()
         this.$emit('create-select', {
           selects,
           questionText,
