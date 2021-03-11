@@ -1,51 +1,43 @@
 <template>
   <div>
     <!--          Questions -->
-    <div class="card py-4 mb-4"
+    <div class="card py-3 mb-4 "
          v-if="itemId === questionIndex"
          v-bind:key="itemId">
-
-      <h4>{{ itemId + 1 + '.' + question.questionText }}</h4>
+      <h4 class="mb-4 text-center">{{ itemId + 1 + '.' + question.questionText }}</h4>
 
       <!--          Answers -->
-      <div
-          class="text-input__question"
-          v-if="question.type === 'simpleQuestion' ">
+      <div class="text-input__question"
+           v-if="question.type === 'simpleQuestion' ">
         <input
-            class="w-50"
             type="text"
             placeholder="Write answer"
             v-model="answer">
       </div>
 
-      <div
-          class="radio-input__question"
-          v-if="question.type === 'radioQuestion'">
-        <div
-            class="radio-input__options"
-            v-for="(option, index) in question.options"
-            :key="index">
+      <div class="radio-input__question"
+           v-if="question.type === 'radioQuestion'">
+        <div class="radio-input__options"
+             v-for="(option, index) in question.options"
+             :key="index">
           <input
+              class="mr-3 w-auto"
               :value="option.id"
               :id="index"
               type='radio'
               v-model="answer">
-          <label :for="index">{{ option.valueText }}</label>
+          <label class="mb-0" :for="index">{{ option.valueText }}</label>
         </div>
       </div>
 
-      <div
-          class="select-input__question"
-          v-if="question.type === 'selectQuestion'">
-        <div>Type: <b>{{ question.selectType }}</b></div>
-
+      <div class="select-input__question text-center"
+           v-if="question.type === 'selectQuestion'">
         <select
-            class="w-25"
             v-bind:multiple="question.selectType === 'multiple' "
             v-model="answer">
           <option
               v-show="question.selectType === 'single'"
-              value=""
+              :value="null"
               selected
               disabled>Select your option
           </option>
@@ -87,3 +79,14 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.select-input__question {
+  select {
+    width: 100%;
+    @media(min-width: 768px) {
+      width: 50%;
+    }
+  }
+}
+</style>

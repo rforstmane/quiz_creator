@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="m-auto created-survey">
+    <h2 class="text-center mb-4">{{ survey.title }}</h2>
     <Question
         v-for="(question, index) in survey.questions"
         :key="index"
@@ -10,23 +11,25 @@
         ref="handleChanges"
     />
 
-    <b-button
-        variant="outline-warning"
-        v-if="questionIndex > 0"
-        @click="prevQuestion">PREV
-    </b-button>
+    <div class="d-flex justify-content-between">
+      <b-button
+          variant="outline-warning"
+          :class="questionIndex > 0 ? '' : 'not-visible'"
+          @click="prevQuestion">PREV
+      </b-button>
 
-    <b-button
-        variant="outline-success"
-        v-if="questionIndex !== null && questionIndex < survey.questions.length -1"
-        @click="nextQuestion">NEXT
-    </b-button>
+      <b-button
+          variant="outline-success"
+          v-if="questionIndex !== null && questionIndex < survey.questions.length -1"
+          @click="nextQuestion">NEXT
+      </b-button>
 
-    <b-button
-        variant="success"
-        v-if="questionIndex === survey.questions.length -1"
-        @click="saveAnswers">SAVE
-    </b-button>
+      <b-button
+          variant="success"
+          v-if="questionIndex === survey.questions.length -1"
+          @click="saveAnswers">SAVE
+      </b-button>
+    </div>
   </div>
 </template>
 
@@ -76,14 +79,10 @@ export default {
 
       let existingAnswers = JSON.parse(localStorage.getItem("allAnswers"))
       if (existingAnswers === null) existingAnswers = []
-
       localStorage.setItem("answer", JSON.stringify(this.questions))
-
       for (const answer of this.answerData.answers) {
         existingAnswers.push(answer)
       }
-
-      // existingAnswers.push(this.answerData.answers)
       localStorage.setItem("allAnswers", JSON.stringify(existingAnswers));
 
       this.$router.push('/results/' + this.survey.id)
@@ -91,3 +90,34 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.created-survey {
+  @media(min-width: 1024px) {
+    width: 50%;
+  }
+
+  .radio-input__question {
+    .radio-input__options {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        background: #e4e4ec;
+      }
+
+      label {
+        width: 100%;
+      }
+    }
+  }
+
+  .btn {
+    &.not-visible {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}
+</style>
