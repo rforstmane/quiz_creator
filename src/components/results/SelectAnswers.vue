@@ -1,14 +1,10 @@
 <template>
-  <div>
-    <div v-for="select in question.selects" :key="select.id">
-      {{select.valueText + ' atbilde'}}
-
-      <div >{{countResults(select.id, answers, question.selectType)}}/{{answers.length}} </div>
-    </div>
-
-
-  </div>
-
+  <ul>
+    <li v-for="select in question.selects" :key="select.id">
+      {{select.valueText}}
+      <span class="ml-3">({{countResults(select.id, answers, question.selectType)}}/{{answers.length}})</span>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -17,26 +13,15 @@ export default {
     'answers',
     'question'
   ],
-  data() {
-    return {
-
-    }
-  },
   methods: {
     countResults(selectId, answers, type) {
       if (type === "single") {
         const optionAnswers = answers.filter(answer => answer.answer === selectId)
-
         return optionAnswers.length
       } else {
-
         const optionAnswers = answers.filter(answer => answer.answer.indexOf(selectId) > -1)
-
         return optionAnswers.length
-
       }
-
-
     }
   }
 }

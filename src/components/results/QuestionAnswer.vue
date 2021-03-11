@@ -1,19 +1,18 @@
 <template>
   <div>
-    <div >
-      {{ question.questionText}}
-
+    <div>
+      <h4>
+        {{ question.questionText }}
+      </h4>
       <div v-if="question.type === 'simpleQuestion'">
         <TextAnswers
-        :answers="answers"/>
+            :answers="answers"/>
       </div>
-
       <div v-if="question.type === 'radioQuestion'">
         <RadioAnswers
             :answers="answers"
             :question="question"/>
       </div>
-
       <div v-if="question.type === 'selectQuestion'">
         <SelectAnswers
             :answers="answers"
@@ -27,6 +26,7 @@
 import TextAnswers from "@/components/results/TextAnswers";
 import RadioAnswers from "@/components/results/RadioAnswers";
 import SelectAnswers from "@/components/results/SelectAnswers";
+
 export default {
   components: {SelectAnswers, RadioAnswers, TextAnswers},
   props: ['question', 'allAnswers'],

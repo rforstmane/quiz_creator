@@ -1,33 +1,22 @@
 <template>
-  <div>
-    <div v-for="option in question.options" :key="option.id">
-      {{option.valueText + ' atbilde'}}
-
-      <div >{{countResults(option.id, answers)}}/{{answers.length}} </div>
-    </div>
-
-
-  </div>
-
+  <ul>
+    <li v-for="option in question.options" :key="option.id">
+      {{ option.valueText }}
+      <span class="ml-3">({{ countResults(option.id, answers) }}/{{ answers.length }})</span>
+    </li>
+  </ul>
 </template>
 
 <script>
 export default {
   props: [
-      'answers',
-      'question'
+    'answers',
+    'question'
   ],
-  data() {
-    return {
-
-    }
-  },
   methods: {
     countResults(optionId, answers) {
       const optionAnswers = answers.filter(answer => answer.answer === optionId)
-
       return optionAnswers.length
-
     }
   }
 }
