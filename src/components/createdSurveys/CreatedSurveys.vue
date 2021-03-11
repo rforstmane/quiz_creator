@@ -1,23 +1,19 @@
 <template>
   <div class="created-surveys">
-
     <h4 class="my-3" v-if="allSurveys">Choose survey to fill</h4>
-    <Survey
-        v-for="(survey, index) in allSurveys"
-        :key="index"
-        :survey="survey"
-        :surveyID="survey.id"
-    />
+    <router-link
+        v-for="(survey) in allSurveys"
+        :to="'/created/' + survey.id"
+        :key="survey.id">
+      <b-button>
+        {{ survey.title }}
+      </b-button>
+    </router-link>
   </div>
-
 </template>
 
 <script>
-
-import Survey from "@/components/createdSurveys/Survey";
-
 export default {
-  components: {Survey},
   name: 'CreatedSurveys',
   data() {
     return {

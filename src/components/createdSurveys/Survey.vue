@@ -1,14 +1,5 @@
 <template>
   <div>
-
-    <b-button
-        variant="outline-success"
-        class="mb-4"
-        v-on:click="startQuiz()"
-        v-show="questionIndex === null">
-      {{ survey.title }}
-    </b-button>
-
     <Question
         v-for="(question, index) in survey.questions"
         :key="index"
@@ -44,13 +35,14 @@ import Question from "@/components/createdSurveys/Question";
 import {v4 as uuidv4} from "uuid";
 
 export default {
+  name: 'Survey',
   components: {
     Question
   },
-  props: ['survey'],
   data() {
     return {
-      questionIndex: null,
+      survey: JSON.parse(localStorage.getItem("allSurveys")).find(survey => survey.id === this.$route.params.id),
+      questionIndex: 0,
       questionLength: '',
       answerData: {
         answers: []
@@ -58,10 +50,6 @@ export default {
     }
   },
   methods: {
-    startQuiz() {
-      this.questionIndex = 0
-    },
-
     nextQuestion() {
       this.$refs.handleChanges[this.questionIndex].sendData()
       this.questionIndex++
@@ -72,15 +60,14 @@ export default {
     },
 
     handleChange(data) {
-
       let exists = this.answerData.answers.some(function (item) {
         return item.questionId === data.questionId
       })
 
       if (!exists) {
-        this.answerData.answers.push({...data, id:uuidv4()})
+        this.answerData.answers.push({...data, id: uuidv4()})
       } else {
-        this.answerData.answers[this.questionIndex] = {...data, id:uuidv4()}
+        this.answerData.answers[this.questionIndex] = {...data, id: uuidv4()}
       }
     },
 
@@ -99,7 +86,7 @@ export default {
       // existingAnswers.push(this.answerData.answers)
       localStorage.setItem("allAnswers", JSON.stringify(existingAnswers));
 
-      this.$router.push('results')
+      this.$router.push('/results/' + this.survey.id)
     },
   }
 }
