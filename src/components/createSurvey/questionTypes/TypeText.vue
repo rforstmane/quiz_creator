@@ -1,26 +1,28 @@
 <template>
-  <div class="card text-input py-4">
+  <div class="card text-input py-4 mb-4">
     <div class="text-input__question">
       <input
-          class="w-50 mb-4"
+          class="mb-3"
           v-model="questionText"
           placeholder="Write question..."
           type="text"/>
     </div>
 
     <b-alert
-        class="mb-0"
+        class="mb-4"
         :show="showErrorAlert"
         variant="danger">Empty question field
     </b-alert>
 
-    <div>
+    <div class="text-center">
       <b-button
-          variant="success"
+          class="mx-3"
+          variant="outline-success"
           v-on:click="addQuestion()">Add
       </b-button>
       <b-button
-          variant="danger"
+          class="mx-3"
+          variant="outline-danger"
           v-on:click="cancelQuestion">Cancel
       </b-button>
     </div>

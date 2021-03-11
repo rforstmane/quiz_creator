@@ -1,55 +1,59 @@
 <template>
-  <div class="card radio-input py-4">
-    <div class="container">
-      <div class="radio-input__question">
+  <div class="card radio-input py-4 mb-4">
+    <div class="radio-input__question">
+      <input
+          class="mb-4"
+          v-model="questionText"
+          placeholder="Write question..."
+          type='text'>
+    </div>
+
+    <div
+        class="radio-input__options"
+        v-for="(option, index) in options"
+        :key="option.id">
+      <div class="mb-2 d-flex align-items-center">
         <input
-            class="w-50 mb-4"
-            v-model="questionText"
-            placeholder="Write question..."
-            type='text'>
+            class="w-auto"
+            disabled
+            type="radio">
+        <input
+            class="mr-4"
+            v-model="option.valueText"
+            :placeholder=placeholder>
+        <b-button
+            v-if="options.length > 1"
+            variant="outline-secondary"
+            @click="removeRadioOption(index)">x
+        </b-button>
       </div>
+    </div>
 
-      <div
-          class="radio-input__options"
-          v-for="(option, index) in options"
-          :key="option.id">
-        <div class="mb-2">
-          <input
-              disabled
-              type="radio">
-          <input
-              v-model="option.valueText"
-              :placeholder=placeholder>
-          <b-button
-              v-if="options.length > 1"
-              variant="outline-danger"
-              @click="removeRadioOption(index)">-
-          </b-button>
-        </div>
-      </div>
-
+    <div class="text-left">
       <b-button
-          variant="outline-warning"
+          class="mb-4"
+          variant="outline-secondary"
           @click="addRadioOption()">+
       </b-button>
+    </div>
 
-      <b-alert
-          class="mb-0"
-          :show="showErrorAlert"
-          variant="danger">Empty question/option field
-      </b-alert>
+    <b-alert
+        class="mb-4"
+        :show="showErrorAlert"
+        variant="danger">Empty question/option field
+    </b-alert>
 
-      <div>
-        <b-button
-            variant="success"
-            v-on:click="addQuestion()">Add
-        </b-button>
-        <b-button
-            variant="danger"
-            v-on:click="cancelQuestion">Cancel
-        </b-button>
-      </div>
-
+    <div class="text-center">
+      <b-button
+          class="mx-3"
+          variant="outline-success"
+          v-on:click="addQuestion()">Add
+      </b-button>
+      <b-button
+          class="mx-3"
+          variant="outline-danger"
+          v-on:click="cancelQuestion">Cancel
+      </b-button>
     </div>
   </div>
 </template>

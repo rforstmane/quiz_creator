@@ -1,176 +1,182 @@
 <template>
-  <div class="card question py-4">
+  <div class="card question py-3 mb-4" :class="isEditing ? 'active' : ''">
     <div class="content" v-show="!isEditing">
-      <div class='header'>
-        {{ itemId + 1 + '.' + question.questionText }}
-        <div
-            class="text-input__question"
-            v-if="question.type === 'simpleQuestion'">
-          <input
-              class="w-50 mb-4"
-              type='text'
-              disabled
-              v-model="question.questionText">
-        </div>
 
-        <div
-            class="radio-input__question"
-            v-if="question.type === 'radioQuestion'">
-          <div
-              class="radio-input__options"
-              v-for="(option, index) in question.options"
-              :key="option.id">
+      <h5 class="text-center"> {{ itemId + 1 + '.' + question.questionText }}</h5>
 
-            <input
-                :id="index"
-                type='radio'
-                disabled>
-            <label
-                :for="index">
-              {{ option.valueText }}
-            </label>
-          </div>
-        </div>
+      <SimpleQuestion
+          class="text-input__question"
+          v-if="question.type === 'simpleQuestion'"
+          :question="question"/>
 
-        <div
-            class="select-input__question"
-            v-if="question.type === 'selectQuestion' ">
-          <select class="w-50 mb-2">
-            <option selected disabled>Select your option</option>
-            <option
-                disabled
-                v-for="(select, index) in question.selects"
-                :value="index"
-                :key="select.id"
-                :id="index">
-              {{ select.valueText }}
-            </option>
-          </select>
-          <div class="mb-4">
-            <span><b>{{ question.selectType }}</b> select</span>
-          </div>
-        </div>
-      </div>
+      <RadioQuestion
+          class="radio-input__question "
+          v-if="question.type === 'radioQuestion'"
+          :question="question"/>
 
-      <div>
-        <b-button
-            v-on:click="editQuestion"
-            variant="warning">Edit
-        </b-button>
-        <b-button
-            v-on:click="deleteQuestion(question)"
-            variant="danger">Delete
-        </b-button>
-      </div>
+      <SelectQuestion
+          class="select-input__question text-center"
+          v-if="question.type === 'selectQuestion' "
+          :question="question"/>
     </div>
 
     <div class="content" v-show="isEditing">
       <div
           class="text-input__question"
           v-if="question.type === 'simpleQuestion'">
-        <label>Your Question</label>
-        <input type='text' v-model="question.questionText">
+        <input
+            class="mb-4"
+            type='text'
+            v-model="question.questionText">
       </div>
-
       <div
           class="radio-input__question"
           v-if="question.type === 'radioQuestion'">
-        <label>Your Question</label>
-        <input type='text' v-model="question.questionText">
-
+        <input
+            class="mb-4"
+            type='text'
+            v-model="question.questionText">
         <div
             class="radio-input__options"
             v-for="(option, index) in question.options"
             :key="option.id">
-          <input
-              disabled
-              :id="index"
-              type='radio'
-              v-model="option.value">
-          <input v-model="option.valueText "/>
+          <div class="mb-2 d-flex align-items-center">
+
+            <input
+                class="w-auto"
+                disabled
+                :id="index"
+                type='radio'
+                v-model="option.value">
+            <input
+                class="mr-4"
+                v-model="option.valueText"
+                :placeholder=placeholder>
+            <b-button
+                v-if="question.options.length > 1"
+                variant="outline-secondary"
+                @click="removeRadioOption(index)">x
+            </b-button>
+          </div>
+        </div>
+
+        <div class="text-left">
           <b-button
-              v-if="question.options.length > 1"
-              variant="outline-danger"
-              @click="removeRadioOption(index)">-
+              class="mb-4"
+              variant="outline-secondary"
+              @click="addRadioOption()">+
           </b-button>
         </div>
-        <b-button variant="outline-warning" @click="addRadioOption()">+</b-button>
       </div>
 
       <div
           class="select-input__question"
           v-if="question.type === 'selectQuestion'">
-        <label>Your Question</label>
         <input
+            class="mb-4"
             type='text'
             v-model="question.questionText">
         <div
-            class="select-input__options"
+            class="radio-input__options"
             v-for="(select, index) in question.selects"
             :key="select.id">
-          <input
-              disabled
-              :id="index"
-              type='radio'
-              v-model="select.value">
-          <input v-model="select.valueText "/>
+          <div class="mb-2 d-flex align-items-center">
+
+            <input
+                class="w-auto"
+                disabled
+                :id="index"
+                type='radio'
+                v-model="select.value">
+            <input
+                class="mr-4"
+                v-model="select.valueText "
+                :placeholder=placeholder>
+            <b-button
+                v-if="question.selects.length > 1"
+                variant="outline-secondary"
+                @click="removeSelectOption(index)">x
+            </b-button>
+          </div>
+        </div>
+
+        <div class="text-left">
           <b-button
-              v-if="question.selects.length > 1"
-              variant="outline-danger"
-              @click="removeSelectOption(index)">-
+              class="mb-4"
+              variant="outline-secondary"
+              @click="addSelectOption()">+
           </b-button>
         </div>
 
-        <b-button
-            variant="outline-warning"
-            @click="addSelectOption()">+
-        </b-button>
-
-        <div class="select-input__options-type">
-          <input
-              type="radio"
-              :id="'single' + itemId"
-              value="single"
-              v-model="selectType"
-              :checked="question.selectType">
-          <label :for="'single' + itemId">Single Select</label>
-          <br>
-          <input
-              type="radio"
-              :id="'multiple' + itemId"
-              value="multiple"
-              v-model="selectType"
-              :checked="question.selectType">
-          <label :for="'multiple' + itemId">Multiple Select</label>
+        <div class="select-input__options-type mb-4">
+          <div>
+            <input
+                class="w-auto"
+                type="radio"
+                :id="'single' + itemId"
+                value="single"
+                v-model="selectType"
+                :checked="question.selectType">
+            <label :for="'single' + itemId">Single Select</label>
+          </div>
+          <div>
+            <input
+                class="w-auto"
+                type="radio"
+                :id="'multiple' + itemId"
+                value="multiple"
+                v-model="selectType"
+                :checked="question.selectType">
+            <label :for="'multiple' + itemId">Multiple Select</label>
+          </div>
         </div>
-
-        <p>Selected Type: {{ question.selectType = selectType }}</p>
-
       </div>
+
       <b-alert
-          class="mb-0"
+          class="mb-4"
           :show="showErrorAlert"
           variant="danger">Empty question/option field
       </b-alert>
+    </div>
 
+    <div class="text-center">
       <b-button
-          variant="success"
+          v-if="isEditing"
+          class="d-inline"
+          variant="outline-success"
           v-on:click="saveChanges">Save changes
       </b-button>
+      <b-button
+          v-show="!isEditing"
+          class="mx-3"
+          v-on:click="editQuestion"
+          variant="outline-warning">Edit
+      </b-button>
+      <b-button
+          class="mx-3"
+          v-on:click="deleteQuestion(question)"
+          variant="outline-danger">Delete
+      </b-button>
     </div>
+
   </div>
 </template>
 
 <script>
 import {v4 as uuidv4} from 'uuid';
+import SimpleQuestion from "@/components/createSurvey/questions/SimpleQuestion";
+import RadioQuestion from "@/components/createSurvey/questions/RadioQuestion";
+import SelectQuestion from "@/components/createSurvey/questions/SelectQuestion";
 
 export default {
+  components: {SelectQuestion, RadioQuestion, SimpleQuestion},
   props: ['question', 'itemId'],
   data() {
     return {
       showErrorAlert: false,
       isEditing: false,
       selectType: this.question.selectType,
+      placeholder: 'Write your option',
       options: [
         {
           id: uuidv4(),
@@ -198,7 +204,6 @@ export default {
       this.question.options.push({
         id: uuidv4(),
         valueText: '',
-        value: ''
       })
     },
 

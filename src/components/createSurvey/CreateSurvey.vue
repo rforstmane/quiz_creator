@@ -1,6 +1,6 @@
 <template>
-  <div class="row d-flex mt-5">
-    <div class="button-block col-12 col-md-4">
+  <div class="row">
+    <div class="button-block col-12 col-md-4 mb-4">
       <b-form-select
           @change="addQuestion"
           v-model="selected"
@@ -8,19 +8,16 @@
       </b-form-select>
       <div class="mt-3">Selected: <b>{{ selected }}</b></div>
     </div>
-
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-md-7">
       <div>
         <div class="survey-title mb-4">
-          <label for="surveyID">Title of Survey: </label>
           <input
+              placeholder="Survey title"
               id="surveyID"
               type="text"
               v-model="survey.title">
         </div>
-
-        <b-alert class="mb-0" :show="showErrorAlert" variant="danger">Empty Survey Title</b-alert>
-
+        <b-alert :show="showErrorAlert" variant="danger">Empty Survey Title</b-alert>
         <Survey
             v-bind:survey="survey.questions"/>
         <TypeText
@@ -33,10 +30,12 @@
             v-if="isVisibleSelectForm"
             v-on:create-select="createQuestion"/>
       </div>
-      <b-button
-          v-show="survey.questions.length > 0"
-          @click="addSurvey">Saglabāt aptauju
-      </b-button>
+      <div class="text-center">
+        <b-button
+            v-show="survey.questions.length > 0"
+            @click="addSurvey">SAVE
+        </b-button>
+      </div>
     </div>
   </div>
 </template>
@@ -87,7 +86,7 @@ export default {
   },
   methods: {
     addSurvey() {
-      if (this.survey.id === '') {
+      if (this.survey.title === '') {
         this.showErrorAlert = true
       } else {
         this.showErrorAlert = false
@@ -131,10 +130,88 @@ export default {
 }
 </script>
 
-<style>
-.button-block .btn {
-  width: 200px;
-  display: block;
-  margin: 0 auto 12px auto;
+<style lang="scss">
+.survey-title {
+  input {
+    background: transparent;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #e4e4ec;
+    border-radius: 0;
+    outline: none;
+    color: #000000;
+    font-size: 20px;
+
+    &:focus, &:active {
+      outline: none;
+      border-bottom: 2px solid #84848e;
+    }
+  }
+}
+
+.card {
+  padding: 36px 20px;
+  border-radius: 8px;
+  border: 1px solid #dadce0;
+  box-shadow: 0 3px 6px #00000029;
+
+  &.active {
+    border: 1px solid #00000060;
+    box-shadow: 0 3px 6px #00000060;
+  }
+
+  input {
+    background: #f8f9fa;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #e4e4ec;
+    padding: 10px 20px;
+    outline: none;
+    color: #000;
+
+    &.radio-button {
+      max-width: 10%;
+    }
+
+    &:focus, &:active {
+      outline: none;
+      border-bottom: 2px solid #84848e;
+    }
+
+    &::placeholder {
+      font-weight: 500;
+    }
+  }
+
+  .radio-input__options {
+    input {
+      font-size: 18px;
+      background: transparent;
+      padding: 0;
+      margin-left: 12px;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        border-bottom: 2px solid #e4e4ec;
+      }
+    }
+
+    label {
+      cursor: pointer;
+      font-size: 18px;
+    }
+  }
+
+  .select-input__options-type {
+    label {
+      cursor: pointer;
+      font-size: 18px;
+    }
+  }
+
+  .alert {
+    border-radius: 8px;
+    border: none;
+  }
 }
 </style>
