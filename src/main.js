@@ -16,6 +16,16 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 
+let allSurveys = require('../allSurveys.json');
+let allAnswers = require('../allAnswers.json');
+
+if (localStorage.getItem("allSurveys") === null) {
+    localStorage.setItem("allSurveys", JSON.stringify(allSurveys));
+}
+if (localStorage.getItem("allAnswers") === null) {
+    localStorage.setItem("allAnswers", JSON.stringify(allAnswers));
+}
+
 new Vue({
     router,
     store,

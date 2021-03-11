@@ -1,0 +1,25 @@
+[
+  {
+    "questionId": "034cc04d-5bb1-4ebd-a7bd-928a78aa5dee",
+    "answer": "Renda",
+    "id": "e414a944-5929-49a1-82d0-fd9c22a6a61b"
+  },
+  {
+    "questionId": "364d36ee-d7fa-4bed-9517-cd861e20a649",
+    "answer": "46280fce-99c4-47af-aca6-304d53fe19b3",
+    "id": "081a2ba1-28eb-44e2-a6d0-c0ac638a57b5"
+  },
+  {
+    "questionId": "f182ed28-9821-4c22-9d59-13780f935f9d",
+    "answer": "da599055-1262-4428-b56b-e18e773cb95c",
+    "id": "41934c0c-eff6-4256-970b-084c3d9b3058"
+  },
+  {
+    "questionId": "5b833640-84ae-461f-b307-9d4fcf3602fa",
+    "answer": [
+      "1e97ef39-5d98-474c-b13a-d1e08002559c",
+      "cd624c8b-9b87-4834-b63f-042c29676f79"
+    ],
+    "id": "035c757a-7ea0-4d7d-9b4f-aab9c219fee9"
+  }
+]
